@@ -4,6 +4,7 @@ env/
 
 __pycache__/
 *.py[cod]
+result.txt
 
 .env
 storage/
