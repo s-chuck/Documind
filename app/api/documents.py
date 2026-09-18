@@ -16,6 +16,9 @@ from app.services.chunker import chunk_text
 from app.services.document_processor import extract_text
 from io import BytesIO
 from zipfile import ZipFile, BadZipFile
+from app.schema.document import DocumentSearchRequest
+from app.services.search_service import search_similar_chunks
+
 ALLOWED_EXTENSIONS = {
     ".pdf",
     ".docx",
@@ -356,3 +359,28 @@ def delete_document(
     db.commit()
 
     return {"message": "Document deleted successfully"}
+
+@router.post("/search")
+def search_documents(
+    data: DocumentSearchRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    results = search_similar_chunks(
+        db=db,
+        user_id=current_user.id,
+        query=data.query,
+        document_id=data.document_id,
+        limit=data.limit,
+    )
+
+    return [
+        {
+            "document_id": chunk.document_id,
+            "chunk_id": chunk.id,
+            "chunk_index": chunk.chunk_index,
+            "distance": distance,
+            "content": chunk.content,
+        }
+        for chunk, distance in results
+    ]

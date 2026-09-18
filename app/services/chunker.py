@@ -1,7 +1,7 @@
 def chunk_text(
     text: str,
-    chunk_size: int = 1000,
-    overlap: int = 200,
+    chunk_size: int = 500,
+    overlap: int = 50,
 ) -> list[str]:
 
     paragraphs = [
@@ -15,49 +15,41 @@ def chunk_text(
 
     for paragraph in paragraphs:
 
-        # If adding this paragraph still fits,
-        # keep it in the current chunk.
+        # Normal paragraph fits in current chunk
         if len(current_chunk) + len(paragraph) <= chunk_size:
             current_chunk += paragraph + "\n\n"
             continue
 
-        # Save the current chunk
+        # Save current chunk
         if current_chunk:
             chunks.append(current_chunk.strip())
 
-        # Create overlap using complete words
-        words = current_chunk.strip().split()
+        # If one paragraph itself is too large,
+        # split it by words.
+        if len(paragraph) > chunk_size:
+            words = paragraph.split()
+            current_chunk = ""
 
-        overlap_words = []
-        overlap_length = 0
-        #reversing the current_chunk bcs overlap ka kaam hi yehi ki old last info ko new chunk mai add krdo.
-        for word in reversed(words):
-            if overlap_length + len(word) + 1 > overlap:
-                break
+            for word in words:
+                candidate = (
+                    f"{current_chunk} {word}"
+                    if current_chunk
+                    else word
+                )
 
-            overlap_words.insert(0, word)
-            overlap_length += len(word) + 1
+                if len(candidate) <= chunk_size:
+                    current_chunk = candidate
+                else:
+                    if current_chunk:
+                        chunks.append(current_chunk.strip())
 
-        overlap_text = " ".join(overlap_words)
-
-        if overlap_text:
-            current_chunk = overlap_text + "\n\n" + paragraph + "\n\n"
+                    current_chunk = word
         else:
             current_chunk = paragraph + "\n\n"
 
-    # Add final chunk
     if current_chunk:
         chunks.append(current_chunk.strip())
 
-    print("\n" + "=" * 80)
-    print("\n" + "=" * 80)
-    print("CHUNKS")
-    print("=" * 80)
-
-    for i, chunk in enumerate(chunks):
-        print(f"\n--- CHUNK {i} ---")
-        print("Characters:", len(chunk))
-        print(chunk)
     return chunks
 
 

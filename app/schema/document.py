@@ -17,3 +17,13 @@ class DocumentListResponse(BaseModel):
 
 class DocumentStatusUpdate(BaseModel):
     status: str
+
+
+class DocumentSearchRequest(BaseModel):
+    query: str
+    document_id: int | None = None
+    limit: int = 5
+
+class QuestionRequest(BaseModel):
+    question: str
+    limit: int = 1
