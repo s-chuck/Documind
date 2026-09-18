@@ -1,7 +1,7 @@
 from PIL import Image
 import pytesseract
 
-path = r"C:\Users\aswal\Desktop\Documind\storage\0dfbefab-0edd-4235-8f41-cf2f85536dcd.png"
+path = r""
 
 image = Image.open(path)
 
