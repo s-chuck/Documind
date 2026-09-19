@@ -26,4 +26,7 @@ class DocumentSearchRequest(BaseModel):
 
 class QuestionRequest(BaseModel):
     question: str
-    limit: int = 1
+    conversation_id: int
+    document_id: int | None = None
+    limit: int = 3
+

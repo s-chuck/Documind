@@ -4,6 +4,7 @@ from app.api.auth import router as authentication_router
 from app.models.user import User
 from app.database import Base, engine
 from app.api.chat import router as chat_router
+from app.api.conversation import router as conversation_router
 Base.metadata.create_all(engine)
 
 app = FastAPI(title="DocuMind API")
@@ -22,3 +23,4 @@ async def root():
 app.include_router(authentication_router)
 app.include_router(documents_router)
 app.include_router(chat_router)
+app.include_router(conversation_router)

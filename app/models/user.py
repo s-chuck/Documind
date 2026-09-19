@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.document import Document
+    from app.models.conversation import Conversation
 
 class User(Base):
     __tablename__ = "users"
@@ -15,3 +16,7 @@ class User(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime,default=datetime.now())
 
     documents: Mapped[list["Document"]] = relationship(back_populates="user")
+    conversations: Mapped[list["Conversation"]] = relationship(
+    back_populates="user",
+    cascade="all, delete-orphan",
+)
