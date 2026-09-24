@@ -164,11 +164,11 @@ from openai import OpenAI
 
 
 client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),
+    base_url="http://localhost:1234/v1",
+    api_key="lm-studio",
 )
 
-MODEL_NAME = "cohere/north-mini-code:free"
+MODEL_NAME = "qwen_qwen3-0.6b"
 
 
 def generate_answer(
