@@ -382,7 +382,7 @@ function Chat() {
             question: currentQuestion,
             conversation_id: activeConversation.id,
             document_id: selectedDocument?.id || null,
-            limit: 3,
+            limit: 10,
           }),
         }
       );

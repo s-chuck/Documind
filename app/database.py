@@ -30,3 +30,9 @@ Base = declarative_base()
 
 
 
+# from app.core.config import DATABASE_URL
+# from sqlalchemy import create_engine
+# if not DATABASE_URL:
+#     raise ValueError("DB_URL not found")
+
+# engine = create_engine(DATABASE_URL)

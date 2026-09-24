@@ -5,10 +5,19 @@ from app.models.user import User
 from app.database import Base, engine
 from app.api.chat import router as chat_router
 from app.api.conversation import router as conversation_router
-Base.metadata.create_all(engine)
+from fastapi.middleware.cors import CORSMiddleware
+# Base.metadata.create_all(engine)
 
+# app = FastAPI(title="DocuMind API")
 app = FastAPI(title="DocuMind API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #root router
 @app.get("/")

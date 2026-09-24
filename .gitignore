@@ -5,8 +5,7 @@ env/
 __pycache__/
 *.py[cod]
 result.txt
-.pdf
-.docs
+/documents
 .env
 storage/
 .vscode/

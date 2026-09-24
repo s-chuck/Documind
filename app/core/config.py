@@ -19,3 +19,26 @@ if not DATABASE_URL:
 
 if not JWT_SECRET_KEY:
     raise ValueError("JWT_SECRET_KEY not found")
+
+
+#our old config.py file is like a container to all the variables now the new one isn't 
+
+# from functools import lru_cache
+
+# from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+# class Settings(BaseSettings):
+#     DATABASE_URL: str
+#     JWT_SECRET_KEY: str
+
+#     model_config = SettingsConfigDict(
+#         env_file=".env",
+#         env_file_encoding="utf-8",
+#         extra="ignore",
+#     )
+
+
+# @lru_cache
+# def get_settings() -> Settings:
+#     return Settings()

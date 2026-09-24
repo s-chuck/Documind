@@ -28,5 +28,5 @@ class QuestionRequest(BaseModel):
     question: str
     conversation_id: int
     document_id: int | None = None
-    limit: int = 3
+    limit: int = 10
 

@@ -1,9 +1,0 @@
-## DocuMind — Problem Statement = 12 Aug 2026
-
-People regularly work with large collections of documents such as study notes, workplace documentation, policies, manuals, insurance documents, and reports. Finding specific information across these documents can be time-consuming, especially when the answer requires understanding information from multiple sections or documents.
-
-Existing AI tools can answer questions about uploaded documents, but the interaction is often temporary and users may have limited control over organizing their documents into a persistent knowledge base. Users also need to be able to verify where an AI-generated answer came from rather than relying on an unsupported response.
-
-DocuMind aims to provide a persistent, personal document knowledge platform where users can store their documents, ask natural-language questions across one or multiple documents, and receive answers supported by citations pointing back to the relevant source content.
-
-The initial version will focus on individual users who regularly work with documents and want to make finding, understanding, and connecting information across those documents faster and easier.
