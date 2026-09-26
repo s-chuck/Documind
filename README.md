@@ -6,22 +6,30 @@ DocuMind is a full-stack document question-answering application built around Re
 
 Upload documents, build a searchable knowledge base, ask questions in natural language, and receive answers grounded in retrieved document content.
 
-<p align="center">
-  <a href="https://youtu.be/ZbwSCWUdKiQ">
-    <img src="https://img.youtube.com/vi/ZbwSCWUdKiQ/maxresdefault.jpg" alt="Watch the DocuMind demo" width="850">
-  </a>
+<p align**=**"center">
+
+  <a href**=**"https://youtu.be/ZbwSCWUdKiQ">
+
+    <img src**="https://img.youtube.com/vi/ZbwSCWUdKiQ/maxresdefault.jpg" alt="Watch the DocuMind demo" width=**"850">
+
+  </a>
+
 </p>
 
-<p align="center">
-  <b>▶ Click the preview above to watch the full demo</b>
+<p align**=**"center">
+
+  <b>▶ Click the preview above to watch the full demo</b>
+
 </p>
 
 🚧 Deployment in progress
 
 DocuMind is currently being prepared for public deployment.
+
 The application is not publicly hosted yet, but the complete workflow is demonstrated in the video above.
 
 Want to see it in action?
+
 Watch the full demo on YouTube
 
 📌 What is DocuMind?
@@ -33,25 +41,45 @@ Instead of sending an entire document to an LLM for every question, DocuMind use
 The core idea is:
 
 Documents
-    ↓
+
+    ↓
+
 Parse
-    ↓
+
+    ↓
+
 Chunk
-    ↓
+
+    ↓
+
 Generate embeddings
-    ↓
+
+    ↓
+
 Store in PostgreSQL + pgvector
-    ↓
+
+    ↓
+
 User asks a question
-    ↓
+
+    ↓
+
 Vector retrieval
-    ↓
+
+    ↓
+
 Reranking
-    ↓
+
+    ↓
+
 Relevant context
-    ↓
+
+    ↓
+
 LLM
-    ↓
+
+    ↓
+
 Answer + retrieved sources
 
 🎯 The Problem
@@ -69,13 +97,21 @@ Sending the entire document to an LLM for every question is also inefficient and
 DocuMind takes a retrieval-first approach:
 
 User Question
-     ↓
+
+     ↓
+
 Find relevant document content
-     ↓
+
+     ↓
+
 Rank the retrieved candidates
-     ↓
+
+     ↓
+
 Give relevant context to the LLM
-     ↓
+
+     ↓
+
 Generate a grounded answer
 
 This allows the application to work with a persistent document library rather than treating every question as an isolated prompt.
@@ -132,16 +168,20 @@ DocuMind provides account creation and sign-in so document libraries can be asso
 
 🔐 Authentication
 
-<p align="center">
-  <img src="assets/01-sign-in.png" alt="DocuMind sign in" width="900">
+<p align**=**"center">
+
+  <img src**="assets/01-sign-in.png" alt="DocuMind sign in" width=**"900">
+
 </p>
 
 DocuMind provides a dedicated authentication flow for accessing a user's document library.
 
 📚 Document Library
 
-<p align="center">
-  <img src="assets/04-library-ready.png" alt="DocuMind document library" width="900">
+<p align**=**"center">
+
+  <img src**="assets/04-library-ready.png" alt="DocuMind document library" width=**"900">
+
 </p>
 
 The library provides a central place to manage documents that are available to the retrieval system.
@@ -150,16 +190,20 @@ Documents expose their processing state, allowing the application to distinguish
 
 🎯 Select the documents you want to query
 
-<p align="center">
-  <img src="assets/06-document-selection.png" alt="DocuMind document selection" width="700">
+<p align**=**"center">
+
+  <img src**="assets/06-document-selection.png" alt="DocuMind document selection" width=**"700">
+
 </p>
 
 A conversation can search the entire library or be restricted to a specific document.
 
 💬 Ask questions and inspect retrieved sources
 
-<p align="center">
-  <img src="assets/07-rag-answer-sources.png" alt="DocuMind RAG answer with retrieved sources" width="900">
+<p align**=**"center">
+
+  <img src**="assets/07-rag-answer-sources.png" alt="DocuMind RAG answer with retrieved sources" width=**"900">
+
 </p>
 
 The answer interface exposes the retrieved sources alongside the generated response.
@@ -168,274 +212,161 @@ This makes the retrieval stage visible instead of hiding the entire RAG process 
 
 🗂️ Conversation history
 
-<p align="center">
-  <img src="assets/05-chat-history.png" alt="DocuMind conversation history" width="900">
+<p align**=**"center">
+
+  <img src**="assets/05-chat-history.png" alt="DocuMind conversation history" width=**"900">
+
 </p>
 
 Users can maintain multiple conversations and manage them from the sidebar.
 
-🏗️ Architecture
+## 🏗️ Architecture
 
-At a high level, DocuMind separates the application into a frontend, backend API, persistence layer, retrieval layer, and LLM generation layer.
+```mermaid
 
-┌─────────────────────────────────────────────────────────────┐
-│                         FRONTEND                            │
-│                     React + Vite                            │
-│                                                             │
-│  Authentication · Library · Chat · Document Selection       │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-                            HTTP API
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│                         BACKEND                             │
-│                         FastAPI                             │
-│                                                             │
-│  Auth · Documents · Conversations · Query Orchestration     │
-└───────────────┬─────────────────────┬───────────────────────┘
-                │                     │
-                ▼                     ▼
-      ┌─────────────────┐    ┌────────────────────────┐
-      │   PostgreSQL    │    │    RAG / Retrieval     │
-      │                 │    │                        │
-      │ Users            │    │ Query Embedding       │
-      │ Documents        │    │ Vector Search         │
-      │ Chunks           │    │ Candidate Retrieval   │
-      │ Conversations    │    │ Reranking             │
-      └────────┬────────┘    └───────────┬────────────┘
-               │                         │
-               │                    ┌────▼─────┐
-               │                    │ pgvector │
-               │                    │           │
-               │                    │ Embeddings
-               │                    └────┬─────┘
-               │                         │
-               └─────────────────────────┤
-                                         │
-                                   Relevant Context
-                                         │
-                                         ▼
-                                ┌─────────────────┐
-                                │       LLM       │
-                                │    Generation   │
-                                └────────┬────────┘
-                                         │
-                                         ▼
-                                Answer + Sources
+flowchart TB
+
+    FRONTEND["🖥️ Frontend<br/>React + Vite<br/><br/>Authentication · Library · Chat · Document Selection"]
+
+    BACKEND["⚡ Backend API<br/>FastAPI<br/><br/>Auth · Documents · Conversations · Query Orchestration"]
+
+    POSTGRES[("🗄️ PostgreSQL")]
+
+    DATA["Application Data<br/>Users · Documents<br/>Chunks · Conversations"]
+
+    PGVECTOR[("🔎 pgvector<br/>Embeddings")]
+
+    RETRIEVAL["🧠 Retrieval Pipeline<br/><br/>Query Embedding<br/>Vector Search<br/>Candidate Retrieval<br/>Reranking"]
+
+    LLM["🤖 LLM<br/>Generation"]
+
+    ANSWER["💬 Answer + Sources"]
+
+    FRONTEND -->|"HTTP / REST"| BACKEND
+
+    BACKEND --> POSTGRES
+
+    POSTGRES --> DATA
+
+    POSTGRES --> PGVECTOR
+
+    BACKEND --> RETRIEVAL
+
+    PGVECTOR --> RETRIEVAL
+
+    RETRIEVAL -->|"Relevant Context"| LLM
+
+    LLM --> ANSWER
+
+    BACKEND --> ANSWER
+
+---
+
+```
 
 🔍 RAG Pipeline
 
-1. Document ingestion
-
-When a document is added to the library, its content needs to become searchable.
-
-Document
-   ↓
-Parse / Extract text
-   ↓
-Clean text
-   ↓
-Split into chunks
-   ↓
-Generate embeddings
-   ↓
-Store chunks + embeddings
-   ↓
-PostgreSQL + pgvector
-
-The important design choice is that the application stores document chunks as retrievable units rather than treating an entire document as one large piece of context.
-
-2. Query processing
-
-When a user asks a question:
-
-User Question
-      ↓
-Create query representation / embedding
-      ↓
-Vector similarity search
-      ↓
-Retrieve candidate chunks
-      ↓
-Rerank candidates
-      ↓
-Select relevant context
-      ↓
-Send context + question to LLM
-      ↓
-Generate answer
-      ↓
-Return answer + sources
-
-The retrieval stage is intentionally separated from generation.
-
-The LLM is not responsible for searching the entire document collection itself. The application first determines which pieces of the knowledge base are relevant.
-
-🧠 Why RAG?
-
-A basic document chatbot can place large amounts of document content directly into an LLM prompt.
-
-That approach becomes increasingly expensive and difficult to manage as the document collection grows.
-
-RAG introduces a retrieval stage:
-
-                    Without retrieval
-
-Document ───────────────► Large prompt ─────────► LLM
-
-
-                    With retrieval
-
-Documents
-    │
-    ▼
-Vector index
-    │
-    ▼
-Relevant chunks ───────► Focused context ───────► LLM
-
-The model receives context selected for the current question instead of blindly receiving the entire document collection.
-
-🔄 Why reranking?
-
-Vector search is useful for efficiently finding candidate chunks that are semantically related to a query.
-
-However, the initial retrieval stage can return multiple plausible candidates.
-
-A reranking stage provides another filtering step:
-
-Question
-   │
-   ▼
-Vector Search
-   │
-   ├── Candidate 1
-   ├── Candidate 2
-   ├── Candidate 3
-   ├── Candidate 4
-   └── Candidate 5
-          │
-          ▼
-    Cross-Encoder
-       Reranker
-          │
-          ▼
-   Best candidates
-          │
-          ▼
-        LLM
-
-This separates two different responsibilities:
-
-Vector search: efficiently retrieve candidate information.
-
-Reranking: more carefully evaluate the relationship between the query and retrieved candidates.
-
-🛠️ Tech Stack
-
-Layer
-
-Technology
-
-Frontend
-
-React
-
-Frontend tooling
-
-Vite
-
-Backend
-
-Python
-
-API framework
-
-FastAPI
-
-ORM
-
-SQLAlchemy
-
-Database
-
-PostgreSQL
-
-Vector search
-
-pgvector
-
-Retrieval
-
-Embeddings + vector similarity search
-
-Reranking
-
-Cross-Encoder
-
-LLM
-
-Qwen via LM Studio
-
-API style
-
-REST
-
-Note: The exact embedding, reranker, and Qwen model configurations are intentionally not hard-coded into this README yet. They can be added once the production configuration is finalized.
-
-⚙️ Engineering Focus
-
-DocuMind was built as a hands-on project for exploring production-oriented backend and AI engineering concepts.
-
-Backend engineering
-
-REST API design with FastAPI
-
-Authentication and user-specific resources
-
-PostgreSQL data modeling
-
-SQLAlchemy ORM
-
-Document and conversation persistence
-
-API-level separation of application responsibilities
-
-Frontend/backend integration
-
-AI engineering
-
-Document ingestion
-
-Text chunking
-
-Embeddings
-
-Vector similarity search
-
-Retrieval-Augmented Generation
-
-Candidate retrieval
-
-Cross-encoder reranking
-
-LLM integration
-
-Grounded answer generation
+### Document Ingestion
+
+```mermaid
+
+flowchart LR
+
+    DOC["📄 Document"]
+
+    PARSE["Parse<br/>& Extract"]
+
+    CHUNK["✂️ Chunking"]
+
+    EMBED["🧮 Embeddings"]
+
+    STORE[("🗄️ PostgreSQL<br/>+ pgvector")]
+
+    DOC --> PARSE
+
+    PARSE --> CHUNK
+
+    CHUNK --> EMBED
+
+    EMBED --> STORE
+
+```
+
+## 🔍 How Query Processing Works
+
+When a user asks a question, DocuMind does not immediately send the request to the LLM.
+
+The application first retrieves the parts of the knowledge base that are relevant to the question, then uses those results to construct the context for generation.
+
+```text
+                         User Question
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Query Representation│
+                    │     / Embedding     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Vector Search     │
+                    │  Semantic Retrieval │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Candidate Chunks    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Cross-Encoder       │
+                    │     Reranking       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Relevant Context    │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────┴──────────┐
+                    │                     │
+                    ▼                     ▼
+             User Question          Retrieved Context
+                    │                     │
+                    └──────────┬──────────┘
+                               ▼
+                    ┌─────────────────────┐
+                    │        LLM          │
+                    │   Answer Generation │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Answer + Sources    │
+                    └─────────────────────┘
+```
 
 System design
 
 The project explores an architecture where:
 
 User-facing application
-        ↓
+
+        ↓
+
 Backend API
-        ↓
+
+        ↓
+
 Persistence + retrieval
-        ↓
+
+        ↓
+
 AI orchestration
-        ↓
+
+        ↓
+
 LLM generation
 
 Each stage has a separate responsibility rather than putting the entire workflow inside a single LLM call.
@@ -445,51 +376,93 @@ Each stage has a separate responsibility rather than putting the entire workflow
 Document side
 
 User
- │
- │ Upload
- ▼
+
+ │
+
+ │ Upload
+
+ ▼
+
 FastAPI
- │
- ▼
+
+ │
+
+ ▼
+
 Document processing
- │
- ├── Document metadata
- │
- └── Text chunks
-          │
-          ▼
-      Embeddings
-          │
-          ▼
-   PostgreSQL + pgvector
+
+ │
+
+ ├── Document metadata
+
+ │
+
+ └── Text chunks
+
+          │
+
+          ▼
+
+      Embeddings
+
+          │
+
+          ▼
+
+   PostgreSQL + pgvector
 
 Question side
 
 User
- │
- │ Question
- ▼
+
+ │
+
+ │ Question
+
+ ▼
+
 FastAPI
- │
- ▼
+
+ │
+
+ ▼
+
 Query representation
- │
- ▼
+
+ │
+
+ ▼
+
 Vector retrieval
- │
- ▼
+
+ │
+
+ ▼
+
 Candidate chunks
- │
- ▼
+
+ │
+
+ ▼
+
 Reranking
- │
- ▼
+
+ │
+
+ ▼
+
 Relevant context
- │
- ▼
+
+ │
+
+ ▼
+
 LLM
- │
- ▼
+
+ │
+
+ ▼
+
 Answer + sources
 
 📁 Project Structure
@@ -497,13 +470,21 @@ Answer + sources
 The repository is organized into separate frontend and backend applications.
 
 DocuMind/
+
 │
+
 ├── backend/
-│   └── ...
+
+│   └── ...
+
 │
+
 ├── frontend/
-│   └── ...
+
+│   └── ...
+
 │
+
 └── README.md
 
 The exact directory structure may evolve as the project continues to be developed.
@@ -517,34 +498,33 @@ The application requires the frontend, backend, PostgreSQL/pgvector database, an
 High-level setup
 
 1. Clone the repository
-        ↓
+
+        ↓
+
 2. Configure the backend environment
-        ↓
+
+        ↓
+
 3. Start PostgreSQL + pgvector
-        ↓
+
+        ↓
+
 4. Configure the local LLM
-        ↓
+
+        ↓
+
 5. Start the FastAPI backend
-        ↓
+
+        ↓
+
 6. Start the React/Vite frontend
-        ↓
+
+        ↓
+
 7. Open the application in your browser
 
 Detailed environment variables and deployment instructions will be added as the project moves toward public deployment.
 
-🎥 Demo
-
-The application is currently being prepared for public deployment.
-
-Until the hosted version is available, the complete workflow can be viewed in the demo:
-
-<p align="center">
-  <a href="https://youtu.be/ZbwSCWUdKiQ">
-    <img src="https://img.youtube.com/vi/ZbwSCWUdKiQ/maxresdefault.jpg" alt="DocuMind Demo" width="850">
-  </a>
-</p>
-
-▶ Watch the full DocuMind demo on YouTube
 
 🗺️ Roadmap
 
@@ -599,13 +579,21 @@ DocuMind is primarily a hands-on engineering project focused on understanding ho
 The project is being developed incrementally, with particular attention to:
 
 Backend engineering
-        +
+
+        +
+
 AI / RAG engineering
-        +
+
+        +
+
 Database design
-        +
+
+        +
+
 System architecture
-        +
+
+        +
+
 User experience
 
 🎯 What I wanted to learn from this project
@@ -642,8 +630,12 @@ The goal is to understand how these components work together as a complete syste
 
 License information will be added as the project is finalized.
 
-<p align="center">
-  <b>DocuMind</b>
-  <br>
-  Document Q&A powered by retrieval and generation.
+<p align**=**"center">
+
+  <b>DocuMind</b>
+
+  <br>
+
+  Document Q&A powered by retrieval and generation.
+
 </p>
