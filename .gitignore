@@ -1,7 +1,7 @@
 venv/
 .venv/
 env/
-
+.demo_documind.mp4
 __pycache__/
 *.py[cod]
 result.txt
