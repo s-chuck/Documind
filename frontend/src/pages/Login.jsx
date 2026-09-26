@@ -166,7 +166,7 @@ function Login({ onBackToHome, onSignUp }) {
                 <span>Email</span>
 
                 <input
-                  type="email"
+                  type="text/"
                   value={email}
                   onChange={(event) =>
                     setEmail(event.target.value)
