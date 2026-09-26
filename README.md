@@ -133,7 +133,7 @@ DocuMind provides account creation and sign-in so document libraries can be asso
 🔐 Authentication
 
 <p align="center">
-  <img src="assets/screenshots/01-sign-in.png" alt="DocuMind sign in" width="900">
+  <img src="assets/01-sign-in.png" alt="DocuMind sign in" width="900">
 </p>
 
 DocuMind provides a dedicated authentication flow for accessing a user's document library.
@@ -141,7 +141,7 @@ DocuMind provides a dedicated authentication flow for accessing a user's documen
 📚 Document Library
 
 <p align="center">
-  <img src="assets/screenshots/04-library-ready.png" alt="DocuMind document library" width="900">
+  <img src="assets/04-library-ready.png" alt="DocuMind document library" width="900">
 </p>
 
 The library provides a central place to manage documents that are available to the retrieval system.
@@ -151,7 +151,7 @@ Documents expose their processing state, allowing the application to distinguish
 🎯 Select the documents you want to query
 
 <p align="center">
-  <img src="assets/screenshots/06-document-selection.png" alt="DocuMind document selection" width="700">
+  <img src="assets/06-document-selection.png" alt="DocuMind document selection" width="700">
 </p>
 
 A conversation can search the entire library or be restricted to a specific document.
@@ -159,7 +159,7 @@ A conversation can search the entire library or be restricted to a specific docu
 💬 Ask questions and inspect retrieved sources
 
 <p align="center">
-  <img src="assets/screenshots/07-rag-answer-sources.png" alt="DocuMind RAG answer with retrieved sources" width="900">
+  <img src="assets/07-rag-answer-sources.png" alt="DocuMind RAG answer with retrieved sources" width="900">
 </p>
 
 The answer interface exposes the retrieved sources alongside the generated response.
@@ -169,7 +169,7 @@ This makes the retrieval stage visible instead of hiding the entire RAG process 
 🗂️ Conversation history
 
 <p align="center">
-  <img src="assets/screenshots/05-chat-history.png" alt="DocuMind conversation history" width="900">
+  <img src="assets/05-chat-history.png" alt="DocuMind conversation history" width="900">
 </p>
 
 Users can maintain multiple conversations and manage them from the sidebar.
