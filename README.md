@@ -6,7 +6,7 @@
 
 <p>A full-stack document Q&amp;A app built with React, FastAPI, PostgreSQL, and retrieval-augmented generation.</p>
 
-<a href="assets/documind-demo.mp4"><img src="assets/documind-demo.gif" alt="Animated preview of the DocuMind demo. Click to open the full video." width="800"></a>
+<a href="https://github.com/user-attachments/assets/12d1c34a-faf8-4c33-bbc0-47f81b470f29"><img src="assets/documind-demo.gif" alt="Animated preview of the DocuMind demo. Click to open the full video." width="800"></a>
 
 <p><em>Animated preview. Click it to open the full demo video.</em></p>
 
